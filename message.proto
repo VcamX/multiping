@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package multiping;
+
+service Communication {
+    rpc Platform(PlatformRequest) returns (PlatformReply) {}
+}
+
+message PlatformRequest {}
+
+message PlatformReply {
+    // Operating system name
+    string system = 1;
+
+    // Operating system release
+    string release = 2;
+
+    // Machine hardware name
+    string machine = 3;
+}
