@@ -19,11 +19,45 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='message.proto',
   package='multiping',
   syntax='proto3',
-  serialized_pb=_b('\n\rmessage.proto\x12\tmultiping\"\x11\n\x0fPlatformRequest\"A\n\rPlatformReply\x12\x0e\n\x06system\x18\x01 \x01(\t\x12\x0f\n\x07release\x18\x02 \x01(\t\x12\x0f\n\x07machine\x18\x03 \x01(\t2S\n\rCommunication\x12\x42\n\x08Platform\x12\x1a.multiping.PlatformRequest\x1a\x18.multiping.PlatformReply\"\x00\x62\x06proto3')
+  serialized_pb=_b('\n\rmessage.proto\x12\tmultiping\"\x11\n\x0fPlatformRequest\"A\n\rPlatformReply\x12\x0e\n\x06system\x18\x01 \x01(\t\x12\x0f\n\x07release\x18\x02 \x01(\t\x12\x0f\n\x07machine\x18\x03 \x01(\t\";\n\x0bPingRequest\x12\x0c\n\x04host\x18\x01 \x01(\t\x12\r\n\x05\x63ount\x18\x02 \x01(\r\x12\x0f\n\x07timeout\x18\x03 \x01(\r\"\xd8\x01\n\tPingReply\x12\'\n\x04type\x18\x01 \x01(\x0e\x32\x19.multiping.PingReply.Type\x12\x13\n\x0bpacket_loss\x18\x02 \x01(\x02\x12\x0b\n\x03ttl\x18\x03 \x01(\r\x12\x0b\n\x03rtt\x18\x04 \x01(\x02\x12\x12\n\nrtt_stddev\x18\x05 \x01(\x02\x12\n\n\x02ip\x18\x06 \x01(\t\"S\n\x04Type\x12\x0b\n\x07UNKNOWN\x10\x00\x12\x06\n\x02OK\x10\x01\x12\x10\n\x0cINVALID_ARGS\x10\x02\x12\x12\n\x0eNOT_RESPONDING\x10\x03\x12\x10\n\x0cUNRESOLVABLE\x10\x04\x32\x8b\x01\n\rCommunication\x12\x42\n\x08Platform\x12\x1a.multiping.PlatformRequest\x1a\x18.multiping.PlatformReply\"\x00\x12\x36\n\x04Ping\x12\x16.multiping.PingRequest\x1a\x14.multiping.PingReply\"\x00\x62\x06proto3')
 )
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
+
+_PINGREPLY_TYPE = _descriptor.EnumDescriptor(
+  name='Type',
+  full_name='multiping.PingReply.Type',
+  filename=None,
+  file=DESCRIPTOR,
+  values=[
+    _descriptor.EnumValueDescriptor(
+      name='UNKNOWN', index=0, number=0,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='OK', index=1, number=1,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='INVALID_ARGS', index=2, number=2,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='NOT_RESPONDING', index=3, number=3,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='UNRESOLVABLE', index=4, number=4,
+      options=None,
+      type=None),
+  ],
+  containing_type=None,
+  options=None,
+  serialized_start=309,
+  serialized_end=392,
+)
+_sym_db.RegisterEnumDescriptor(_PINGREPLY_TYPE)
 
 
 _PLATFORMREQUEST = _descriptor.Descriptor(
@@ -94,8 +128,124 @@ _PLATFORMREPLY = _descriptor.Descriptor(
   serialized_end=112,
 )
 
+
+_PINGREQUEST = _descriptor.Descriptor(
+  name='PingRequest',
+  full_name='multiping.PingRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='host', full_name='multiping.PingRequest.host', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='count', full_name='multiping.PingRequest.count', index=1,
+      number=2, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='timeout', full_name='multiping.PingRequest.timeout', index=2,
+      number=3, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=114,
+  serialized_end=173,
+)
+
+
+_PINGREPLY = _descriptor.Descriptor(
+  name='PingReply',
+  full_name='multiping.PingReply',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='type', full_name='multiping.PingReply.type', index=0,
+      number=1, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='packet_loss', full_name='multiping.PingReply.packet_loss', index=1,
+      number=2, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='ttl', full_name='multiping.PingReply.ttl', index=2,
+      number=3, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='rtt', full_name='multiping.PingReply.rtt', index=3,
+      number=4, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='rtt_stddev', full_name='multiping.PingReply.rtt_stddev', index=4,
+      number=5, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='ip', full_name='multiping.PingReply.ip', index=5,
+      number=6, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+    _PINGREPLY_TYPE,
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=176,
+  serialized_end=392,
+)
+
+_PINGREPLY.fields_by_name['type'].enum_type = _PINGREPLY_TYPE
+_PINGREPLY_TYPE.containing_type = _PINGREPLY
 DESCRIPTOR.message_types_by_name['PlatformRequest'] = _PLATFORMREQUEST
 DESCRIPTOR.message_types_by_name['PlatformReply'] = _PLATFORMREPLY
+DESCRIPTOR.message_types_by_name['PingRequest'] = _PINGREQUEST
+DESCRIPTOR.message_types_by_name['PingReply'] = _PINGREPLY
 
 PlatformRequest = _reflection.GeneratedProtocolMessageType('PlatformRequest', (_message.Message,), dict(
   DESCRIPTOR = _PLATFORMREQUEST,
@@ -111,6 +261,20 @@ PlatformReply = _reflection.GeneratedProtocolMessageType('PlatformReply', (_mess
   ))
 _sym_db.RegisterMessage(PlatformReply)
 
+PingRequest = _reflection.GeneratedProtocolMessageType('PingRequest', (_message.Message,), dict(
+  DESCRIPTOR = _PINGREQUEST,
+  __module__ = 'message_pb2'
+  # @@protoc_insertion_point(class_scope:multiping.PingRequest)
+  ))
+_sym_db.RegisterMessage(PingRequest)
+
+PingReply = _reflection.GeneratedProtocolMessageType('PingReply', (_message.Message,), dict(
+  DESCRIPTOR = _PINGREPLY,
+  __module__ = 'message_pb2'
+  # @@protoc_insertion_point(class_scope:multiping.PingReply)
+  ))
+_sym_db.RegisterMessage(PingReply)
+
 
 import abc
 from grpc.beta import implementations as beta_implementations
@@ -123,6 +287,9 @@ class BetaCommunicationServicer(object):
   @abc.abstractmethod
   def Platform(self, request, context):
     raise NotImplementedError()
+  @abc.abstractmethod
+  def Ping(self, request, context):
+    raise NotImplementedError()
 
 class BetaCommunicationStub(object):
   """The interface to which stubs will conform."""
@@ -131,17 +298,26 @@ class BetaCommunicationStub(object):
   def Platform(self, request, timeout):
     raise NotImplementedError()
   Platform.future = None
+  @abc.abstractmethod
+  def Ping(self, request, timeout):
+    raise NotImplementedError()
+  Ping.future = None
 
 def beta_create_Communication_server(servicer, pool=None, pool_size=None, default_timeout=None, maximum_timeout=None):
   import message_pb2
   import message_pb2
+  import message_pb2
+  import message_pb2
   request_deserializers = {
+    ('multiping.Communication', 'Ping'): message_pb2.PingRequest.FromString,
     ('multiping.Communication', 'Platform'): message_pb2.PlatformRequest.FromString,
   }
   response_serializers = {
+    ('multiping.Communication', 'Ping'): message_pb2.PingReply.SerializeToString,
     ('multiping.Communication', 'Platform'): message_pb2.PlatformReply.SerializeToString,
   }
   method_implementations = {
+    ('multiping.Communication', 'Ping'): face_utilities.unary_unary_inline(servicer.Ping),
     ('multiping.Communication', 'Platform'): face_utilities.unary_unary_inline(servicer.Platform),
   }
   server_options = beta_implementations.server_options(request_deserializers=request_deserializers, response_serializers=response_serializers, thread_pool=pool, thread_pool_size=pool_size, default_timeout=default_timeout, maximum_timeout=maximum_timeout)
@@ -150,13 +326,18 @@ def beta_create_Communication_server(servicer, pool=None, pool_size=None, defaul
 def beta_create_Communication_stub(channel, host=None, metadata_transformer=None, pool=None, pool_size=None):
   import message_pb2
   import message_pb2
+  import message_pb2
+  import message_pb2
   request_serializers = {
+    ('multiping.Communication', 'Ping'): message_pb2.PingRequest.SerializeToString,
     ('multiping.Communication', 'Platform'): message_pb2.PlatformRequest.SerializeToString,
   }
   response_deserializers = {
+    ('multiping.Communication', 'Ping'): message_pb2.PingReply.FromString,
     ('multiping.Communication', 'Platform'): message_pb2.PlatformReply.FromString,
   }
   cardinalities = {
+    'Ping': cardinality.Cardinality.UNARY_UNARY,
     'Platform': cardinality.Cardinality.UNARY_UNARY,
   }
   stub_options = beta_implementations.stub_options(host=host, metadata_transformer=metadata_transformer, request_serializers=request_serializers, response_deserializers=response_deserializers, thread_pool=pool, thread_pool_size=pool_size)

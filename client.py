@@ -7,10 +7,14 @@ import logging
 from grpc.beta import implementations
 
 import message_pb2
+import servicer
 import utils
 
-_ARGS_CONFIG = 'client_config.json'
+_ARGS_CONFIG = 'config_client.json'
 _ARGS_SERVERS = 'servers.json'
+
+_ARGS_PING_COUNT = 1
+_ARGS_PING_TIMEOUT = 10
 
 parser = argparse.ArgumentParser(description='Multiping client side.')
 parser.add_argument('--config', '-c', default=_ARGS_CONFIG, help="""
@@ -25,6 +29,16 @@ subparsers = parser.add_subparsers(
     description='Commands supported for client.')
 parser_platform = subparsers.add_parser(
     'platform', help='Show platform information of servers alive')
+parser_ping = subparsers.add_parser('ping', help='Ping to host')
+
+parser_ping.add_argument('host')
+parser_ping.add_argument('--count', type=int,
+                         default=_ARGS_PING_COUNT, help="""
+Number of packets to send (default: {0})""".format(_ARGS_PING_COUNT))
+parser_ping.add_argument('--timeout', type=int,
+                         default=_ARGS_PING_TIMEOUT, help="""
+Timeout of ping (default: {0})""".format(_ARGS_PING_TIMEOUT))
+
 args = parser.parse_args()
 
 logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO,
@@ -83,7 +97,25 @@ class Client(object):
             self._get_platform_info()
         return self._platform_info
 
+    def ping(self, host, count, timeout):
+        print('Ping results:')
+        for label, stub in self._stubs.items():
             print()
+            resp = stub.Ping(message_pb2.PingRequest(host=host, count=count,
+                                                     timeout=timeout),
+                             self._config['timeout'])
+            print('From server [{0}]'.format(label))
+            print('  Type: {0} {1}'.format(
+                resp.type,
+                servicer.ping_reply_type_string(resp.type)))
+            if resp.type == message_pb2.PingReply.OK:
+                print('  Target IP Address: {0}'.format(resp.ip))
+                print('  Packet loss: {0}%'.format(round(resp.packet_loss, 2)))
+                print('  TTL: {0}'.format(resp.ttl))
+                print('  RTT: {0}, RTT STDDEV: {1}'.format(
+                    round(resp.rtt, 2), round(resp.rtt_stddev, 2)))
+
+
 def platform(client):
     client.init()
     platform_info = client.platform_info
@@ -97,6 +129,14 @@ def platform(client):
             **platform_info[label]))
 
 
+def ping(client):
+    client.init()
+    if utils.is_valid_addr_v4(args.host) or utils.is_valid_hostname(args.host):
+        client.ping(args.host, args.count, args.timeout)
+    else:
+        logging.error('Invalid host name: {0}'.format(args.host))
+
+
 def main():
     servers = utils.load_servers(args.servers)
     config = utils.load_config(args.config)
@@ -104,6 +144,8 @@ def main():
 
     if args.action == 'platform':
         platform(client)
+    elif args.action == 'ping':
+        ping(client)
 
 
 if __name__ == '__main__':

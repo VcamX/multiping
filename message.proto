@@ -4,6 +4,7 @@ package multiping;
 
 service Communication {
     rpc Platform(PlatformRequest) returns (PlatformReply) {}
+    rpc Ping(PingRequest) returns (PingReply) {}
 }
 
 message PlatformRequest {}
@@ -17,4 +18,46 @@ message PlatformReply {
 
     // Machine hardware name
     string machine = 3;
+}
+
+message PingRequest {
+    // Host
+    string host = 1;
+
+    // Number of packets to send
+    uint32 count = 2;
+
+    // Timeout
+    uint32 timeout = 3;
+}
+
+message PingReply {
+    // Enum type of ping result
+    enum Type {
+        UNKNOWN = 0;
+        OK = 1;
+        INVALID_ARGS = 2;
+        NOT_RESPONDING = 3;
+        UNRESOLVABLE = 4;
+    }
+
+    // Type of ping result
+    Type type = 1;
+
+    // The following fields are only valid when type = OK
+
+    // Packet loss
+    float packet_loss = 2;
+
+    // Time to live
+    uint32 ttl = 3;
+
+    // Round-trip time
+    float rtt = 4;
+
+    // Std dev of round-trip time
+    float rtt_stddev = 5;
+
+    // IP address
+    string ip = 6;
 }

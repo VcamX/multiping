@@ -7,11 +7,11 @@ import message_pb2
 import servicer
 import utils
 
-_ONE_DAY_IN_SECONDS = 60 * 60 * 24
+_ARGS_CONFIG = 'config_server.json'
 
 parser = argparse.ArgumentParser(description='Multiping server side.')
-parser.add_argument('--config', '-c', default='config.json',
-                    help='Config file (default: config.json)')
+parser.add_argument('--config', '-c', default=_ARGS_CONFIG,
+                    help='Config file (default: {0})'.format(_ARGS_CONFIG))
 parser.add_argument('--verbose', '-v', action='store_true',
                     help='Verbose')
 args = parser.parse_args()
@@ -21,7 +21,16 @@ logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO,
                     datefmt="%Y-%m-%d %H:%M:%S")
 
 
+def default_config():
+    return {
+        'port': "[::]:50051",
+        'time_to_sleep': 86400,
+    }
+
+
 def serve(config):
+    if config is None:
+        config = default_config()
     server = message_pb2.beta_create_Communication_server(
         servicer.MessageServicer())
     port = server.add_insecure_port(config['port'])
@@ -29,7 +38,7 @@ def serve(config):
     server.start()
     try:
         while True:
-            time.sleep(_ONE_DAY_IN_SECONDS)
+            time.sleep(config['time_to_sleep'])
     except KeyboardInterrupt:
         server.stop(0)
 
