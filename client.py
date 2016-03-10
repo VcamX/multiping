@@ -7,12 +7,12 @@ import threading
 
 from grpc.beta import implementations
 
-import message_pb2
-import servicer
-import utils
+from multiping import (
+    message_pb2, servicer, utils
+)
 
-_ARGS_CONFIG = 'config_client.json'
-_ARGS_SERVERS = 'servers.json'
+_ARGS_CONFIG = 'config/config_client.json'
+_ARGS_SERVERS = 'config/servers.json'
 
 _ARGS_PING_COUNT = 1
 _ARGS_PING_TIMEOUT = 10

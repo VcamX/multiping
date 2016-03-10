@@ -3,11 +3,11 @@ import argparse
 import time
 import logging
 
-import message_pb2
-import servicer
-import utils
+from multiping import (
+    message_pb2, servicer, utils
+)
 
-_ARGS_CONFIG = 'config_server.json'
+_ARGS_CONFIG = 'config/config_server.json'
 
 parser = argparse.ArgumentParser(description='Multiping server side.')
 parser.add_argument('--config', '-c', default=_ARGS_CONFIG,
