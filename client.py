@@ -19,28 +19,30 @@ _ARGS_PING_TIMEOUT = 10
 
 parser = argparse.ArgumentParser(description='Multiping client side.')
 parser.add_argument('--config', '-c', default=_ARGS_CONFIG, help="""
-Config file (default: {0})""".format(_ARGS_CONFIG))
+config file (default: {0})""".format(_ARGS_CONFIG))
 parser.add_argument('--servers', '-s', default=_ARGS_SERVERS, help="""
-Config file for available servers (default: {0})""".format(_ARGS_SERVERS))
+config file for available servers (default: {0})""".format(_ARGS_SERVERS))
 parser.add_argument('--async', '-a', action='store_true',
-                    help='Using async mechanism')
+                    help='use async mechanism')
 parser.add_argument('--verbose', '-v', action='store_true',
-                    help='Verbose')
+                    help='verbose mode')
 
 subparsers = parser.add_subparsers(
     dest='action', title='actions',
     description='Commands supported for client.')
 parser_platform = subparsers.add_parser(
-    'platform', help='Show platform information of servers alive')
-parser_ping = subparsers.add_parser('ping', help='Ping to host')
+    'platform', help='platform information of servers alive',
+    description='Platform information of servers alive.')
+parser_ping = subparsers.add_parser('ping', help='ping to host',
+                                    description='Ping to host.')
 
 parser_ping.add_argument('host')
 parser_ping.add_argument('--count', type=int,
                          default=_ARGS_PING_COUNT, help="""
-Number of packets to send (default: {0})""".format(_ARGS_PING_COUNT))
+number of packets to send (default: {0})""".format(_ARGS_PING_COUNT))
 parser_ping.add_argument('--timeout', type=int,
                          default=_ARGS_PING_TIMEOUT, help="""
-Timeout of ping (default: {0})""".format(_ARGS_PING_TIMEOUT))
+timeout of ping (default: {0})""".format(_ARGS_PING_TIMEOUT))
 
 args = parser.parse_args()
 

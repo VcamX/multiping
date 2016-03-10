@@ -13,10 +13,10 @@ _ARGS_CONFIG = 'config/config_server.json'
 
 parser = argparse.ArgumentParser(description='Multiping server side.')
 parser.add_argument('--config', '-c', default=_ARGS_CONFIG,
-                    help='Config file (default: {0})'.format(_ARGS_CONFIG))
-parser.add_argument('--ssl', action='store_true', help='Using SSL')
+                    help='config file (default: {0})'.format(_ARGS_CONFIG))
+parser.add_argument('--ssl', action='store_true', help='use SSL')
 parser.add_argument('--verbose', '-v', action='store_true',
-                    help='Verbose')
+                    help='verbose mode')
 args = parser.parse_args()
 
 logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO,
