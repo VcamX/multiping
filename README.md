@@ -1,18 +1,19 @@
 Multiping
 =========
 
-Sending pings from different hosts and gathering results.
+Ping from different hosts and gather results.
 
 ### Server
 ```
-usage: server.py [-h] [--config CONFIG] [--verbose]
+usage: server.py [-h] [--config CONFIG] [--ssl] [--verbose]
 
 Multiping server side.
 
 optional arguments:
   -h, --help            show this help message and exit
   --config CONFIG, -c CONFIG
-                        Config file (default: config_server.json)
+                        Config file (default: config/config_server.json)
+  --ssl                 Using SSL
   --verbose, -v         Verbose
 ```
 ### Client
@@ -26,10 +27,10 @@ Multiping client side.
 optional arguments:
   -h, --help            show this help message and exit
   --config CONFIG, -c CONFIG
-                        Config file (default: config_client.json)
+                        Config file (default: config/config_client.json)
   --servers SERVERS, -s SERVERS
                         Config file for available servers (default:
-                        servers.json)
+                        config/servers.json)
   --async, -a           Using async mechanism
   --verbose, -v         Verbose
 
