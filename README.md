@@ -17,7 +17,8 @@ optional arguments:
 ```
 ### Client
 ```
-usage: client.py [-h] [--config CONFIG] [--servers SERVERS] [--verbose]
+usage: client.py [-h] [--config CONFIG] [--servers SERVERS] [--async]
+                 [--verbose]
                  {platform,ping} ...
 
 Multiping client side.
@@ -29,6 +30,7 @@ optional arguments:
   --servers SERVERS, -s SERVERS
                         Config file for available servers (default:
                         servers.json)
+  --async, -a           Using async mechanism
   --verbose, -v         Verbose
 
 actions:
