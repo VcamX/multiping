@@ -1,8 +1,11 @@
 
+from __future__ import print_function
+
 import re
 import platform
 import json
 import logging
+import time
 
 
 def platform_info():
@@ -45,3 +48,19 @@ def is_valid_hostname(hostname):
     p = re.compile(
         '^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$')
     return p.match(hostname) is not None
+
+
+def resource_string(file):
+    with open(file, 'r') as f:
+        s = f.read()
+    return s
+
+
+def count_time(func):
+    def inner(*args, **kwargs):
+        start = time.time()
+        result = func(*args, **kwargs)
+        print()
+        print('Time elapsed: {0}'.format(time.time()-start))
+        return result
+    return inner

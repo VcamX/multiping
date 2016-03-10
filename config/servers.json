@@ -1,6 +1,7 @@
 {
   "localhost": {
-    "host": "127.0.0.1",
-    "port": 50051
+    "host": "localhost",
+    "port": 50051,
+    "ssl": false
   }
 }

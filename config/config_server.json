@@ -1,4 +1,6 @@
 {
-  "port": "[::]:50051",
-  "time_to_sleep": 86400
+  "port": 50051,
+  "time_to_sleep": 86400,
+  "private_key": "",
+  "certificate_chain": ""
 }

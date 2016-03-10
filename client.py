@@ -55,11 +55,16 @@ class Client(object):
     def _default_config():
         return {
             'timeout': 60,
+            'root_certificates': '',
         }
 
-    def __init__(self, servers, config):
+    def __init__(self, servers, config, ssl=False):
         self._servers = servers
-        self._config = Client._default_config() if config is None else config
+        self._config = Client._default_config()
+        if config is not None:
+            self._config.update(config)
+        self._ssl = ssl
+        self._creds = None
         self._channels = None
         self._stubs = None
         self._platform_info = None
@@ -70,11 +75,20 @@ class Client(object):
 
     def init(self):
         if not self._initialized:
+            if self._config['root_certificates'] != '':
+                self._creds = implementations.ssl_channel_credentials(
+                    utils.resource_string(self._config['root_certificates']),
+                    None, None)
+
             self._channels = {}
             self._stubs = {}
             for label, server in self._servers.items():
-                chan = implementations.insecure_channel(server['host'],
-                                                        server['port'])
+                if server['ssl']:
+                    chan = implementations.secure_channel(
+                        server['host'], server['port'], self._creds)
+                else:
+                    chan = implementations.insecure_channel(
+                        server['host'], server['port'])
                 st = message_pb2.beta_create_Communication_stub(chan)
 
                 self._channels[label] = chan
@@ -115,7 +129,7 @@ class Client(object):
             self._queue = []
             for label, stub in self._stubs.items():
                 future = stub.Platform.future(message_pb2.PlatformRequest(),
-                                            self._config['timeout'])
+                                              self._config['timeout'])
                 t = threading.Thread(target=self._waiting_result,
                                      args=[label, future])
                 t.start()
@@ -185,6 +199,7 @@ class Client(object):
         return results
 
 
+@utils.count_time
 def platform(client):
     client.init()
     results = client.platform(async=args.async)
@@ -202,6 +217,7 @@ def platform(client):
                 **result))
 
 
+@utils.count_time
 def ping(client):
     client.init()
     if utils.is_valid_addr_v4(args.host) or utils.is_valid_hostname(args.host):
@@ -232,7 +248,7 @@ def ping(client):
 def main():
     servers = utils.load_servers(args.servers)
     config = utils.load_config(args.config)
-    client = Client(servers, config)
+    client = Client(servers, config, ssl=args.ssl)
 
     if args.action == 'platform':
         platform(client)
